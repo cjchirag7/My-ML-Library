@@ -45,7 +45,7 @@ theta=np.zeros(3)   # initializing parameters
 #print(Cost(Xtr,Ytr,theta))
 
 # Gradient-Descent
-theta=GradientDescent(X,Y,theta)
+theta=GradientDescent(Xtr,Ytr,theta)
 
 # Testing accuracy of prediction on test set
 prediction=predict(Xtest,theta)
