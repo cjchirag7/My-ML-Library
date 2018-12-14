@@ -28,7 +28,8 @@ train.GradientDescent()
 prediction=train.predict(Xtest)
 print(train.X)
 Error=((prediction-Ytest)/Ytest)*100
-print("The average error in test set is: " + str(np.mean(Error)) + " %")
+print("The accuracy on test set is: " + str(100-np.mean(Error)) + " %")
+
 
 
 # In[ ]
