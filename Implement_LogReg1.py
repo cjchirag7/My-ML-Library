@@ -54,7 +54,3 @@ print("The accuracy on the test set is: " + str(acc) + " %")
 
 
 # In[ ]:
-
-
-
-

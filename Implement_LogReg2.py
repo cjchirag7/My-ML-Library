@@ -12,7 +12,7 @@ def Sigmoid(z):
 
 def Cost(X,Y,theta,LAMBDA=0):
     h=Sigmoid(np.dot(X,theta))
-    reg=(LAMBDA/(2*Y.size))*np.dot(theta.T*theta)
+    reg=(LAMBDA/(2*Y.size))*np.dot(theta.T,theta)
     J=-(np.dot(Y.T,np.log(h))+np.dot(1-Y.T,np.log(1-h)))/Y.size + reg # Cost after Regularisation
     return J
  
