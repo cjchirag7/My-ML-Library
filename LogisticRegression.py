@@ -27,6 +27,22 @@ class logReg:
             self.theta=self.theta-grad
             #print("Cost in "+str(i)+"th iteration: "+str(self.Cost(LAMBDA)))
 
+    def miniGradientDescent(self,batch_sz,shuffle=True,LAMBDA=0,alpha=0.1,iter=2000):
+        if(shuffle):
+            np.random.shuffle([self.X,self.Y])        
+        for i in range(1,iter):
+            for j in range(0,Y.size,batch_sz):
+                X_mini=self.X[j:j+batch_sz,:]
+                Y_mini=self.Y[j:j+batch_sz]
+                if(Y_mini.size==0):   
+                    break       # to avoid division by zero error
+                h=Sigmoid(np.dot(X_mini,self.theta))
+                P=np.dot(X_mini.T,(h-Y_mini))
+                grad=(alpha/Y_mini.size)*P+(LAMBDA/Y_mini.size)*self.theta
+                grad[0]=(alpha/Y_mini.size)*P[0]
+                self.theta=self.theta-grad
+            #print("Cost in "+str(i)+"th iteration: "+str(self.Cost(LAMBDA)))
+
     def accuracy(self,test):
         prediction=self.predict(test.X)
         acc=(sum(prediction==test.Y)/test.Y.size)*100

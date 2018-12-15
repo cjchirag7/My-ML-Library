@@ -21,8 +21,8 @@ train=logReg(X[:tr_sz-1,:],Y[:tr_sz-1])
 test=logReg(X[tr_sz:,:],Y[tr_sz:])
 
 
-# Gradient-Descent
-train.GradientDescent()
+# Mini-Batch Gradient-Descent
+train.miniGradientDescent(10)
 
 # Testing accuracy of prediction on test set
 print("The accuracy on the test set is: " + str(train.accuracy(test)) + " %")

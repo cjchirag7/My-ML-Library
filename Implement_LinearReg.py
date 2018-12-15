@@ -20,20 +20,13 @@ tr_sz=sz-test_sz
 train=linReg(X[:tr_sz-1,:],Y[:tr_sz-1])
 test=linReg(X[tr_sz:,:],Y[tr_sz:])
 
-# Gradient-Descent
-train.GradientDescent()
+# Mini-Batch Gradient-Descent
+train.miniGradientDescent(5)
 
 # Testing accuracy of prediction on test set
 print("The accuracy on test set is: " + str(train.accuracy(test)) + " %")
 
 
-
-# In[ ]
-
-
-
-
-# In[ ]:
 
 
 
