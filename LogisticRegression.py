@@ -1,6 +1,8 @@
 def Sigmoid(z):
     return 1/(1+np.exp(-z))
 
+#====== CLASS FOR IMPLEMENTING LOGISTIC REGRESSION ======#
+
 class logReg:
     def __init__(self,Xin,Yin):
         self.Y=Yin
@@ -14,8 +16,7 @@ class logReg:
         return J
  
     def predict(self,X):
-        newX=np.hstack([np.ones([X.shape[0],1]),X])  # adding a column of 1's at the beginning of X
-        return Sigmoid(np.dot(newX,self.theta))>=0.5
+        return Sigmoid(np.dot(X,self.theta))>=0.5
 
     def GradientDescent(self,LAMBDA=0,alpha=0.1,iter=2000):
         for i in range(1,iter):
@@ -25,4 +26,13 @@ class logReg:
             grad[0]=(alpha/self.Y.size)*P[0]
             self.theta=self.theta-grad
             #print("Cost in "+str(i)+"th iteration: "+str(self.Cost(LAMBDA)))
+
+    def accuracy(self,test):
+        prediction=self.predict(test.X)
+        acc=(sum(prediction==test.Y)/test.Y.size)*100
+        return acc
+
+    def params(self):
+        return self.theta
+  
     

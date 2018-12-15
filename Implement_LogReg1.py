@@ -18,17 +18,14 @@ X=normalise(X)   #normalising X
 test_sz=sz//4  
 tr_sz=sz-test_sz   
 train=logReg(X[:tr_sz-1,:],Y[:tr_sz-1])
-Xtest=X[tr_sz:,:]
-Ytest=Y[tr_sz:]
+test=logReg(X[tr_sz:,:],Y[tr_sz:])
 
 
 # Gradient-Descent
 train.GradientDescent()
 
 # Testing accuracy of prediction on test set
-prediction=train.predict(Xtest)
-acc=(sum(prediction==Ytest)/test_sz)*100
-print("The accuracy on the test set is: " + str(acc) + " %")
+print("The accuracy on the test set is: " + str(train.accuracy(test)) + " %")
 
 
 # In[ ]:

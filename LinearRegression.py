@@ -3,6 +3,7 @@
 
 # In[5]:
 
+#====== CLASS FOR IMPLEMENTING LINEAR REGRESSION ======#
 
 class linReg:
     
@@ -18,8 +19,7 @@ class linReg:
         return J
  
     def predict(self,X):
-        newX=np.hstack([np.ones([X.shape[0],1]),X])  # adding a column of 1's at the beginning of X
-        return np.dot(newX,self.theta)
+        return np.dot(X,self.theta)
 
     def GradientDescent(self,LAMBDA=0,alpha=0.1,iter=2000):
         for i in range(1,iter):
@@ -30,6 +30,15 @@ class linReg:
             self.theta=self.theta-grad
             #print("Cost in "+str(i)+"th iteration: "+str(self.Cost(LAMBDA)))
     
+    def accuracy(self,test):
+        prediction=self.predict(test.X)
+        Error=((prediction-test.Y)/test.Y)*100 # Error %
+        return (100-np.mean(Error))
+
+    def params(self):
+        return self.theta
+       
+
 
 # In[ ]:
 

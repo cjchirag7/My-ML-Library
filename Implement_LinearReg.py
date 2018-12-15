@@ -15,20 +15,16 @@ sz=X.shape[0]
 X=normalise(X)
 
 # separation of training set and test set
-test_sz=sz//4   # 11
-tr_sz=sz-test_sz   # 36
+test_sz=sz//4   
+tr_sz=sz-test_sz   
 train=linReg(X[:tr_sz-1,:],Y[:tr_sz-1])
-Xtest=X[tr_sz:,:]
-Ytest=Y[tr_sz:]
+test=linReg(X[tr_sz:,:],Y[tr_sz:])
 
 # Gradient-Descent
 train.GradientDescent()
 
 # Testing accuracy of prediction on test set
-prediction=train.predict(Xtest)
-print(train.X)
-Error=((prediction-Ytest)/Ytest)*100
-print("The accuracy on test set is: " + str(100-np.mean(Error)) + " %")
+print("The accuracy on test set is: " + str(train.accuracy(test)) + " %")
 
 
 
