@@ -26,7 +26,7 @@ test=logReg(X[tr_sz:,:],Y[tr_sz:])
 
 
 # Mini-Batch Gradient-Descent
-train.miniGradientDescent(5,True,LAMBDA=1)
+train.miniGradientDescent(5,True,LAMBDA=100)
 
 # Testing accuracy of prediction on test set
 print("The accuracy on the test set is: " + str(train.accuracy(test)) + " %")

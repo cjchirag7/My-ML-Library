@@ -7,7 +7,8 @@
 import numpy as np
 import LogisticRegression
 
-
+def normalise(Xin):
+        return (Xin-np.mean(Xin,axis=0))/np.std(Xin,axis=0)    # NORMALISING FEATURES
 
 X=np.genfromtxt('LogisticRegressionData1.txt',delimiter=',',usecols=(0,1))
 Y=np.genfromtxt('LogisticRegressionData1.txt',delimiter=',',usecols=-1)
