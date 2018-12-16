@@ -3,8 +3,8 @@ import numpy as np
 #====== CLASS FOR IMPLEMENTING LOGISTIC REGRESSION ======#
 
 class logReg:
-    
-    def __init__(self,Xin,Yin):
+
+    def set(self,Xin,Yin):
         self.X=Xin
         self.Y=Yin
         self.m=Yin.size # number of training examples
@@ -18,14 +18,14 @@ class logReg:
         return self.Sigmoid(np.dot(X,self.slope)+self.inter)>=0.5
     
     def Cost(self,LAMBDA=0):
-        h=Sigmoid(np.dot(self.X,self.slope)+self.inter)
+        h=self.Sigmoid(np.dot(self.X,self.slope)+self.inter)
         reg=(LAMBDA/(2*self.m))*(np.sum(np.power(self.slope,2)))
         J=-(np.dot(self.Y.T,np.log(h))+np.dot(1-self.Y.T,np.log(1-h)))/self.m + reg # Cost after Regularisation
         return J
  
     def GradientDescent(self,LAMBDA=0,alpha=0.1,iter=2000):
         for i in range(1,iter):
-            h=Sigmoid(np.dot(self.X,self.slope)+self.inter)
+            h=self.Sigmoid(np.dot(self.X,self.slope)+self.inter)
             P=np.dot(self.X.T,(h-self.Y))
             grad_slope=(alpha/self.m)*P+(LAMBDA/self.m)*self.slope
             grad_inter=(alpha/self.m)*np.sum(h-self.Y)
@@ -43,7 +43,7 @@ class logReg:
                 sz=Y_mini.size
                 if(Y_mini.size==0):   
                     break       # to avoid division by zero error
-                h=Sigmoid(np.dot(X_mini,self.slope)+self.inter)
+                h=self.Sigmoid(np.dot(X_mini,self.slope)+self.inter)
                 P=np.dot(X_mini.T,(h-Y_mini))
                 grad_slope=(alpha/sz)*P+(LAMBDA/sz)*self.slope
                 grad_inter=(alpha/sz)*np.sum(h-Y_mini)
