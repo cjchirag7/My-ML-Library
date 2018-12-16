@@ -1,9 +1,9 @@
-def Sigmoid(z):
-    return 1/(1+np.exp(-z))
+import numpy as np
 
 #====== CLASS FOR IMPLEMENTING LOGISTIC REGRESSION ======#
 
 class logReg:
+    
     def __init__(self,Xin,Yin):
         self.X=Xin
         self.Y=Yin
@@ -11,8 +11,11 @@ class logReg:
         self.slope=np.random.rand(Xin.shape[1])
         self.inter=np.random.rand(1)
         
+    def Sigmoid(self,z):
+        return 1/(1+np.exp(-z))
+
     def predict(self,X):
-        return Sigmoid(np.dot(X,self.slope)+self.inter)>=0.5
+        return self.Sigmoid(np.dot(X,self.slope)+self.inter)>=0.5
     
     def Cost(self,LAMBDA=0):
         h=Sigmoid(np.dot(self.X,self.slope)+self.inter)

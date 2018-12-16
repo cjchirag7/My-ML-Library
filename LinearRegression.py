@@ -1,8 +1,10 @@
+import numpy as np
+
 #====== CLASS FOR IMPLEMENTING LINEAR REGRESSION ======#
 
 class linReg:
     
-    def __init__(self,Xin,Yin):
+    def set(self,Xin,Yin):
         self.X=Xin
         self.Y=Yin
         self.m=Yin.size # number of training examples
@@ -32,7 +34,7 @@ class linReg:
         if(shuffle):
             np.random.shuffle([self.X,self.Y])        
         for i in range(1,iter):
-            for j in range(0,Y.size,batch_sz):
+            for j in range(0,self.m,batch_sz):
                 X_mini=self.X[j:j+batch_sz,:]
                 Y_mini=self.Y[j:j+batch_sz]
                 sz=Y_mini.size
