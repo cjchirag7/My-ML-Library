@@ -60,14 +60,14 @@ class NNClassifier:
     def calc_grad(self,LAMBDA=0):
         delta=np.zeros((self.nol+1,max(np.max(self.l_size),self.noc)))
         for t in range(0,self.m):
-            # Feed-Forward
-            z=np.random.rand(self.nol+1,max(self.l_size))
+            # Feed-Forwar]
+            z=np.random.rand(self.nol+1,max(np.max(self.l_size),self.noc))
             z[0,:self.l_size[0]]=np.dot(self.X[t,:],self.w[0,:self.l_size[0],:self.n].T)+self.b[0,:self.l_size[0]]
-            a=np.random.rand(self.nol+1,max(self.l_size))
-            a[0,:self.l_size[0]]=self.Sigmoid(z[0,:])
+            a=np.random.rand(self.nol+1,max(np.max(self.l_size),self.noc))
+            a[0,:self.l_size[0]]=self.Sigmoid(z[0,:self.l_size[0]])
             for i in range(1,self.nol):
                 z[i,:self.l_size[i]]=np.dot(a[i-1,:self.l_size[i-1]],self.w[i,:self.l_size[i],:self.l_size[i-1]].T)+self.b[i,:self.l_size[i]]
-                a[i,:self.l_size[i]]=self.Sigmoid(z[i,:])
+                a[i,:self.l_size[i]]=self.Sigmoid(z[i,:self.l_size[i]])
             z[-1,:self.noc]=np.dot(a[self.nol-1,:self.l_size[-1]],self.w[-1,:self.noc,:self.l_size[-1]].T)+self.b[-1,:self.noc]
             a[-1,:self.noc]=self.Sigmoid(z[-1,:self.noc])
             #Back Propagation
@@ -77,6 +77,7 @@ class NNClassifier:
                     sz=self.noc
                 else:
                     sz=self.l_size[j+1]
+                delta[j,:self.l_size[j]]=np.dot(self.w[j+1,:sz,:self.l_size[j]].T,delta[j+1,:sz])*self.der_Sigmoid(a[j,:self.l_size[j]])
             for k in range(0,self.nol):
                 nocol=self.l_size[k-1]  # number of rows in weight matrix
                 nor=self.l_size[k]    # number of cols in weight matrix
@@ -93,7 +94,7 @@ class NNClassifier:
         self.grad_w=(self.grad_w+LAMBDA*self.w)/self.m
         self.grad_b=self.grad_b/self.m
 
-    def GradientDescent(self,LAMBDA=0,alpha=0.01,iter=1000):
+    def GradientDescent(self,LAMBDA=0,alpha=0.03,iter=1000):
         for i in range(1,iter):
             self.calc_grad(LAMBDA)
             self.w=self.w-alpha*self.grad_w
