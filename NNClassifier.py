@@ -74,7 +74,7 @@ class NNClassifier:
         J=-(np.sum(self.Y*np.log(a))+np.sum((1-self.Y)*np.log(1-a)))/self.m + reg 
         return J
 
-    def calc_grad(self,Xin,Yin,LAMBDA=0):
+    def calc_grad(self,Xin,Yin,alpha,LAMBDA=0):
         m_in=Yin.shape[0]
         delta=np.zeros((self.nol+1,max(np.max(self.l_size),self.noc)))
         for t in range(0,m_in):
@@ -89,7 +89,7 @@ class NNClassifier:
             z[-1,:self.noc]=np.dot(a[self.nol-1,:self.l_size[-1]],self.get_w(self.nol+1).T)+self.get_b(self.nol+1)
             a[-1,:self.noc]=self.Sigmoid(z[-1,:self.noc])
             #Back Propagation
-            delta[-1,:self.noc]=a[-1,:self.noc]-Yin[t,:]
+            delta[-1,:self.noc]=(a[-1,:self.noc]-Yin[t,:])*self.der_Sigmoid(a[-1,:self.noc])
             for j in range(self.nol-1,-1,-1):
                 if(j==self.nol-1):
                     sz=self.noc
@@ -109,14 +109,14 @@ class NNClassifier:
                 self.grad_w[k,:nor,:nocol]+=np.dot(D.T,act)
                 self.grad_b[k,:nor]+=delta[k,:nor]
         # Dividing gradients by m and applying regularisation
-        self.grad_w=(self.grad_w+LAMBDA*self.w)/m_in
-        self.grad_b=self.grad_b/m_in
+        self.grad_w=((alpha*self.grad_w)+(LAMBDA*self.w))/m_in
+        self.grad_b=(alpha*self.grad_b)/m_in
 
     def GradientDescent(self,LAMBDA=0,alpha=0.03,iter=1000):
         for i in range(1,iter):
-            self.calc_grad(self.X,self.Y,LAMBDA)
-            self.w=self.w-alpha*self.grad_w
-            self.b=self.b-alpha*self.grad_b
+            self.calc_grad(self.X,self.Y,alpha,LAMBDA)
+            self.w=self.w-self.grad_w
+            self.b=self.b-self.grad_b
             #print("Cost in "+str(i)+"th iteration: "+str(self.Cost(LAMBDA)))
             
     def miniGradientDescent(self,batch_sz,shuffle=True,LAMBDA=0,alpha=0.03,iter=500):
@@ -132,9 +132,9 @@ class NNClassifier:
                 sz=Y_mini.size
                 if(Y_mini.size==0):   
                     break       # to avoid division by zero error
-                self.calc_grad(X_mini,Y_mini,LAMBDA)
-                self.w=self.w-alpha*self.grad_w
-                self.b=self.b-alpha*self.grad_b          
+                self.calc_grad(X_mini,Y_mini,alpha,LAMBDA)
+                self.w=self.w-self.grad_w
+                self.b=self.b-self.grad_b          
             #print("Cost in "+str(i)+"th iteration: "+str(self.Cost(LAMBDA)))
             
     def accuracy(self,test):
