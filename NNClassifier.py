@@ -4,7 +4,7 @@ import numpy as np
 
 class NNClassifier:
 
-    def set(self,Xin,Yin,layer_sizes,e=0.12):
+    def set(self,Xin,Yin,layer_sizes,e=0.6):
         self.X=Xin
         self.n=self.X.shape[1] # Number of features
         self.out=Yin  # To store the ouptuts 
