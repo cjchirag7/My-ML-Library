@@ -1,6 +1,6 @@
 import numpy as np
 
-#====== CLASS FOR IMPLEMENTING LOGISTIC REGRESSION ======#
+#====== CLASS FOR IMPLEMENTING NEURAL NETWORKS ======#
 
 class NNClassifier:
 
